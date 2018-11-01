@@ -1,8 +1,7 @@
 package ru.sertok.hibernate.servlets;
 
-import ru.sertok.hibernate.dao.impl.UserDaoJdbcTemplate;
+import ru.sertok.hibernate.dao.impl.UserDao;
 import ru.sertok.hibernate.models.User;
-import ru.sertok.hibernate.repository.ConnectionUserDao;
 import ru.sertok.hibernate.utils.Utils;
 
 import javax.servlet.ServletException;
@@ -15,12 +14,11 @@ import java.sql.Date;
 
 @WebServlet("/signUp")
 public class SignUpServlet extends HttpServlet {
-    private UserDaoJdbcTemplate userDao;
+    private UserDao userDao;
 
     @Override
     public void init() {
-        ConnectionUserDao connection = new ConnectionUserDao();
-        userDao = connection.getUserDaoJdbcTemplate();
+        userDao = new UserDao();
     }
 
     @Override
