@@ -1,8 +1,15 @@
 package ru.sertok.hibernate.servlets;
 
-import ru.sertok.hibernate.dao.impl.UserDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import ru.sertok.hibernate.dao.api.UserDao;
+import ru.sertok.hibernate.dao.impl.UserDaoImpl;
 import ru.sertok.hibernate.utils.Utils;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,11 +20,14 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
+    @Autowired
     private UserDao userDao;
 
     @Override
-    public void init() {
-        userDao = new UserDao();
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
+                config.getServletContext());
     }
 
     @Override

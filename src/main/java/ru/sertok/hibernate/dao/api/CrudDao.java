@@ -1,5 +1,7 @@
 package ru.sertok.hibernate.dao.api;
 
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.Optional;
 

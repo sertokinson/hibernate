@@ -3,7 +3,9 @@ package ru.sertok.hibernate.dao.impl;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import ru.sertok.hibernate.dao.api.CrudDao;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import ru.sertok.hibernate.dao.api.UserDao;
 import ru.sertok.hibernate.models.User;
 import ru.sertok.hibernate.repository.DateBaseRepository;
 import ru.sertok.hibernate.utils.Utils;
@@ -11,12 +13,12 @@ import ru.sertok.hibernate.utils.Utils;
 import java.util.List;
 import java.util.Optional;
 
-
-public class UserDao implements CrudDao<User> {
+@Component
+public class UserDaoImpl implements UserDao {
     private SessionFactory sessionFactory;
     private String[] mutableHash = new String[1];
 
-    public UserDao() {
+    public UserDaoImpl() {
         sessionFactory = DateBaseRepository.getSessionFactory();
     }
 
@@ -56,7 +58,7 @@ public class UserDao implements CrudDao<User> {
         }
     }
 
-
+    @Override
     public Boolean isExist(String name, String password) {
         try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery("from User user where user.name=:name", User.class);
@@ -72,4 +74,6 @@ public class UserDao implements CrudDao<User> {
             return false;
         }
     }
+
+
 }
