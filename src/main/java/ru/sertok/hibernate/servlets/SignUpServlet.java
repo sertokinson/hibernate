@@ -3,7 +3,6 @@ package ru.sertok.hibernate.servlets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import ru.sertok.hibernate.dao.api.UserDao;
-import ru.sertok.hibernate.dao.impl.UserDaoImpl;
 import ru.sertok.hibernate.models.User;
 import ru.sertok.hibernate.utils.Utils;
 
@@ -38,8 +37,11 @@ public class SignUpServlet extends HttpServlet {
         String name = Utils.decode(req.getParameter("name"));
         String password = req.getParameter("password");
         Date birthDate = Date.valueOf(req.getParameter("birthDate"));
-        userDao.save(new User()
-                .withName(name).withPassword(Utils.hash(password)).withBirthDate(birthDate)
+        userDao.save(
+                User.builder()
+                        .name(name)
+                        .password(Utils.hash(password))
+                        .birthDate(birthDate).build()
         );
         resp.sendRedirect(req.getContextPath() + "/users");
     }
